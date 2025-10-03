@@ -7,6 +7,7 @@ import {
 } from '@shopify/hydrogen';
 import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
+import {Logo, LogoCompact} from '~/components/Logo';
 
 interface HeaderProps {
   header: HeaderQuery;
@@ -26,8 +27,8 @@ export function Header({
   const {shop, menu} = header;
   return (
     <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
+      <NavLink prefetch="intent" to="/" className="header-logo-link" end>
+        <Logo className="header-logo" />
       </NavLink>
       <HeaderMenu
         menu={menu}
@@ -102,7 +103,7 @@ function HeaderCtas({
   return (
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
+      <NavLink prefetch="intent" to="/account" className="header-cta-button">
         <Suspense fallback="Sign in">
           <Await resolve={isLoggedIn} errorElement="Sign in">
             {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
@@ -130,7 +131,7 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
   const {open} = useAside();
   return (
-    <button className="reset" onClick={() => open('search')}>
+    <button className="header-cta-button" onClick={() => open('search')}>
       Search
     </button>
   );
@@ -143,6 +144,7 @@ function CartBadge({count}: {count: number | null}) {
   return (
     <a
       href="/cart"
+      className="header-cta-button"
       onClick={(e) => {
         e.preventDefault();
         open('cart');
@@ -154,7 +156,7 @@ function CartBadge({count}: {count: number | null}) {
         } as CartViewPayload);
       }}
     >
-      Cart {count === null ? <span>&nbsp;</span> : count}
+      Cart{count !== null && count > 0 && <span className="cart-count"> ({count})</span>}
     </a>
   );
 }

@@ -98,28 +98,74 @@ export default function Product() {
   const {title, descriptionHtml} = product;
 
   return (
-    <div className="product">
-      <ProductImage image={selectedVariant?.image} />
-      <div className="product-main">
-        <h1>{title}</h1>
-        <ProductPrice
-          price={selectedVariant?.price}
-          compareAtPrice={selectedVariant?.compareAtPrice}
-        />
-        <br />
-        <ProductForm
-          productOptions={productOptions}
-          selectedVariant={selectedVariant}
-        />
-        <br />
-        <br />
-        <p>
-          <strong>Description</strong>
-        </p>
-        <br />
-        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
-        <br />
+    <div className="product-page">
+      <div className="product-container">
+        {/* Product Image Gallery */}
+        <div className="product-gallery">
+          <div className="product-image-main">
+            <ProductImage image={selectedVariant?.image} />
+          </div>
+          {/* Could add thumbnails here in the future */}
+        </div>
+
+        {/* Product Info */}
+        <div className="product-info">
+          <div className="product-header">
+            <h1 className="product-title">{title}</h1>
+            <div className="product-price-wrapper">
+              <ProductPrice
+                price={selectedVariant?.price}
+                compareAtPrice={selectedVariant?.compareAtPrice}
+              />
+            </div>
+          </div>
+
+          {/* Product Form (Options + Add to Cart) */}
+          <div className="product-form-wrapper">
+            <ProductForm
+              productOptions={productOptions}
+              selectedVariant={selectedVariant}
+            />
+          </div>
+
+          {/* Product Details */}
+          <div className="product-details">
+            <div className="product-description">
+              <h3 className="product-section-title">Description</h3>
+              <div 
+                className="product-description-content"
+                dangerouslySetInnerHTML={{__html: descriptionHtml}} 
+              />
+            </div>
+
+            {/* Additional Product Info */}
+            <div className="product-features">
+              <div className="product-feature">
+                <span className="feature-icon">✦</span>
+                <div className="feature-content">
+                  <strong>Handcrafted Quality</strong>
+                  <p>Made with care and attention to detail</p>
+                </div>
+              </div>
+              <div className="product-feature">
+                <span className="feature-icon">◆</span>
+                <div className="feature-content">
+                  <strong>Sustainable Materials</strong>
+                  <p>Ethically sourced and produced</p>
+                </div>
+              </div>
+              <div className="product-feature">
+                <span className="feature-icon">⬡</span>
+                <div className="feature-content">
+                  <strong>Free Shipping</strong>
+                  <p>On orders over $75</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <Analytics.ProductView
         data={{
           products: [

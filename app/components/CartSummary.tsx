@@ -16,19 +16,25 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
 
   return (
     <div aria-labelledby="cart-summary" className={className}>
-      <h4>Totals</h4>
-      <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
-        <dd>
-          {cart?.cost?.subtotalAmount?.amount ? (
-            <Money data={cart?.cost?.subtotalAmount} />
-          ) : (
-            '-'
-          )}
-        </dd>
-      </dl>
-      <CartDiscounts discountCodes={cart?.discountCodes} />
-      <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />
+      <div className="cart-summary-header">
+        <h3>Order Summary</h3>
+      </div>
+
+      <div className="cart-summary-content">
+        <dl className="cart-subtotal">
+          <dt>Subtotal</dt>
+          <dd>
+            {cart?.cost?.subtotalAmount?.amount ? (
+              <Money data={cart?.cost?.subtotalAmount} />
+            ) : (
+              '-'
+            )}
+          </dd>
+        </dl>
+        <CartDiscounts discountCodes={cart?.discountCodes} />
+        <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />
+      </div>
+
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
     </div>
   );
@@ -38,11 +44,10 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
-      <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+    <div className="cart-checkout-actions">
+      <a href={checkoutUrl} target="_self" className="btn-primary checkout-button">
+        Continue to Checkout
       </a>
-      <br />
     </div>
   );
 }
@@ -60,14 +65,13 @@ function CartDiscounts({
   return (
     <div>
       {/* Have existing discount, display it with a remove option */}
-      <dl hidden={!codes.length}>
+      <dl hidden={!codes.length} className="cart-discount-applied">
         <div>
           <dt>Discount(s)</dt>
           <UpdateDiscountForm>
             <div className="cart-discount">
               <code>{codes?.join(', ')}</code>
-              &nbsp;
-              <button>Remove</button>
+              <button className="btn-text remove-discount">Remove</button>
             </div>
           </UpdateDiscountForm>
         </div>
@@ -75,10 +79,14 @@ function CartDiscounts({
 
       {/* Show an input to apply a discount */}
       <UpdateDiscountForm discountCodes={codes}>
-        <div>
-          <input type="text" name="discountCode" placeholder="Discount code" />
-          &nbsp;
-          <button type="submit">Apply</button>
+        <div className="cart-discount-form">
+          <input 
+            type="text" 
+            name="discountCode" 
+            placeholder="Discount code" 
+            className="discount-input"
+          />
+          <button type="submit" className="btn-secondary apply-button">Apply</button>
         </div>
       </UpdateDiscountForm>
     </div>

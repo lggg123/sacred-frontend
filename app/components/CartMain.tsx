@@ -31,9 +31,17 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
   return (
     <div className={className}>
       <CartEmpty hidden={linesCount} layout={layout} />
+      {linesCount && (
+        <div className="cart-header">
+          <h2>Your Cart</h2>
+          <p className="cart-item-count">
+            {cart?.totalQuantity} {cart?.totalQuantity === 1 ? 'item' : 'items'}
+          </p>
+        </div>
+      )}
       <div className="cart-details">
-        <div aria-labelledby="cart-lines">
-          <ul>
+        <div aria-labelledby="cart-lines" className="cart-lines">
+          <ul className="cart-items-list">
             {(cart?.lines?.nodes ?? []).map((line) => (
               <CartLineItem key={line.id} line={line} layout={layout} />
             ))}
@@ -53,16 +61,23 @@ function CartEmpty({
 }) {
   const {close} = useAside();
   return (
-    <div hidden={hidden}>
-      <br />
-      <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
-      </p>
-      <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
-        Continue shopping →
-      </Link>
+    <div hidden={hidden} className="cart-empty">
+      <div className="cart-empty-content">
+        <div className="cart-empty-icon">🛍️</div>
+        <h3>Your cart is empty</h3>
+        <p>
+          Looks like you haven&rsquo;t added anything yet. Let&rsquo;s get you
+          started!
+        </p>
+        <Link 
+          to="/collections" 
+          onClick={close} 
+          prefetch="viewport"
+          className="btn-primary"
+        >
+          Continue Shopping
+        </Link>
+      </div>
     </div>
   );
 }
