@@ -103,7 +103,7 @@ function HeaderCtas({
   return (
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" className="header-cta-button">
+      <NavLink prefetch="intent" to="/account" className="header-cta-button header-cta-account">
         <Suspense fallback="Sign in">
           <Await resolve={isLoggedIn} errorElement="Sign in">
             {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
@@ -134,7 +134,7 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
   const {open} = useAside();
   return (
-    <button className="header-cta-button" onClick={() => open('search')}>
+    <button className="header-cta-button header-cta-search" onClick={() => open('search')}>
       Search
     </button>
   );
