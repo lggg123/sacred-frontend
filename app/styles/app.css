@@ -143,6 +143,7 @@ aside {
   top: 0;
   transition: transform var(--transition-base);
   z-index: 200;
+  overflow: hidden; /* Prevent horizontal scrolling */
 }
 
 aside header {
@@ -189,6 +190,8 @@ aside header h2 {
 
 aside main {
   margin: var(--spacing-lg);
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  height: calc(100vh - var(--header-height) - var(--spacing-lg));
 }
 
 aside p {
@@ -570,15 +573,16 @@ button.reset:hover:not(:has(> *)) {
 /* Cart - Luxury Redesign */
 .cart-main {
   height: 100%;
-  max-height: calc(100vh - var(--cart-aside-summary-height));
+  max-height: calc(100vh - var(--header-height) - 120px);
   overflow-y: auto;
   width: auto;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .cart-main.with-discount {
-  max-height: calc(100vh - var(--cart-aside-summary-height-with-discount));
+  max-height: calc(100vh - var(--header-height) - 150px);
 }
 
 /* Cart Header */
@@ -638,6 +642,19 @@ button.reset:hover:not(:has(> *)) {
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-lg);
+  min-height: 0; /* Important for flexbox scrolling */
+}
+
+/* Cart Details Container */
+.cart-details {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.cart-summary-wrapper {
+  flex-shrink: 0;
 }
 
 .cart-items-list {
@@ -656,6 +673,25 @@ button.reset:hover:not(:has(> *)) {
   border: 1px solid var(--color-sacred-beige);
   border-radius: var(--radius-md);
   transition: all var(--transition-fast);
+  overflow: hidden; /* Prevent content overflow */
+}
+
+@media (max-width: 768px) {
+  .cart-line {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .cart-line-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+  
+  .cart-line-price {
+    white-space: normal;
+    word-break: break-word;
+  }
 }
 
 .cart-line:hover {
@@ -688,6 +724,8 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+  min-width: 0; /* Allow flex item to shrink */
+  overflow: hidden; /* Prevent content overflow */
 }
 
 .cart-line-header {
@@ -695,6 +733,7 @@ button.reset:hover:not(:has(> *)) {
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--spacing-md);
+  flex-wrap: wrap; /* Allow wrapping on small screens */
 }
 
 .cart-line-title {
@@ -704,6 +743,12 @@ button.reset:hover:not(:has(> *)) {
   text-decoration: none;
   transition: color var(--transition-fast);
   flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .cart-line-title:hover {
@@ -715,6 +760,7 @@ button.reset:hover:not(:has(> *)) {
   color: var(--color-sacred-charcoal);
   font-size: 1rem;
   white-space: nowrap;
+  min-width: fit-content; /* Ensure price doesn't get squished */
 }
 
 .cart-line-options {

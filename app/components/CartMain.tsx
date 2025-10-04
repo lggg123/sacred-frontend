@@ -47,7 +47,11 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
             ))}
           </ul>
         </div>
-        {cartHasItems && <CartSummary cart={cart} layout={layout} />}
+        {cartHasItems && (
+          <div className="cart-summary-wrapper">
+            <CartSummary cart={cart} layout={layout} />
+          </div>
+        )}
       </div>
     </div>
   );
