@@ -162,15 +162,19 @@ function CartGiftCard({
         saveAppliedCode={saveAppliedCode}
         fetcherKey="gift-card-add"
       >
-        <div>
+        <div className="cart-discount-form">
           <input
             type="text"
             name="giftCardCode"
             placeholder="Gift card code"
             ref={giftCardCodeInput}
+            className="discount-input"
           />
-          &nbsp;
-          <button type="submit" disabled={giftCardAddFetcher.state !== 'idle'}>
+          <button 
+            type="submit" 
+            disabled={giftCardAddFetcher.state !== 'idle'}
+            className="btn-secondary apply-button"
+          >
             Apply
           </button>
         </div>

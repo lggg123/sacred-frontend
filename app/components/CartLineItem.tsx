@@ -28,7 +28,7 @@ export function CartLineItem({
   return (
     <li key={id} className="cart-line">
       <div className="cart-line-image">
-        {image && (
+        {image ? (
           <Image
             alt={title}
             aspectRatio="1/1"
@@ -37,6 +37,10 @@ export function CartLineItem({
             loading="lazy"
             width={100}
           />
+        ) : (
+          <div className="cart-line-image-placeholder">
+            <span>📷</span>
+          </div>
         )}
       </div>
 

@@ -117,13 +117,16 @@ function HeaderCtas({
 }
 
 function HeaderMenuMobileToggle() {
-  const {open} = useAside();
+  const {open, close, type} = useAside();
+  const isOpen = type === 'mobile';
+  
   return (
     <button
       className="header-menu-mobile-toggle reset"
-      onClick={() => open('mobile')}
+      onClick={() => isOpen ? close() : open('mobile')}
+      aria-label={isOpen ? 'Close menu' : 'Open menu'}
     >
-      <h3>☰</h3>
+      <h3>{isOpen ? '✕' : '☰'}</h3>
     </button>
   );
 }
