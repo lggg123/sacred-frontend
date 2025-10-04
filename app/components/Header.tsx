@@ -219,6 +219,15 @@ const FALLBACK_HEADER_MENU = {
       url: '/pages/about',
       items: [],
     },
+    {
+      id: 'gid://shopify/MenuItem/461609599033',
+      resourceId: null,
+      tags: [],
+      title: 'Contact',
+      type: 'PAGE',
+      url: '/pages/contact',
+      items: [],
+    },
   ],
 };
 

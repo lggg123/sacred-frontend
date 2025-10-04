@@ -57,12 +57,25 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 export default function Page() {
   const {page} = useLoaderData<typeof loader>();
 
+  console.log('Page data:', page); // Debug log
+
   return (
     <div className="page">
       <header>
         <h1>{page.title}</h1>
       </header>
-      <main dangerouslySetInnerHTML={{__html: page.body}} />
+      <main>
+        {page.body ? (
+          <div dangerouslySetInnerHTML={{__html: page.body}} />
+        ) : (
+          <div className="page-empty">
+            <p>This page appears to be empty.</p>
+            <p><strong>Page Handle:</strong> {page.handle}</p>
+            <p><strong>Page ID:</strong> {page.id}</p>
+            <p>Please check that the page content has been added in Shopify Admin.</p>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
