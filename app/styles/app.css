@@ -2392,8 +2392,8 @@ button.reset:hover:not(:has(> *)) {
 
 /* Product Gallery */
 .product-gallery {
-  position: sticky;
-  top: calc(var(--header-height) + var(--spacing-xl));
+  /* Removed sticky positioning for better mobile readability */
+  position: static;
   height: fit-content;
 }
 
