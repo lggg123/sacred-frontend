@@ -103,14 +103,17 @@ function HeaderCtas({
   return (
     <nav className="header-ctas" role="navigation">
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" className="header-cta-button header-cta-account">
+      {/* Hide Sign in on mobile for cleaner UX */}
+      <NavLink prefetch="intent" to="/account" className="header-cta-button header-cta-account hide-mobile">
         <Suspense fallback="Sign in">
           <Await resolve={isLoggedIn} errorElement="Sign in">
             {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
           </Await>
         </Suspense>
       </NavLink>
+      {/* Hide Search on mobile for cleaner UX */}
       <SearchToggle />
+      {/* Cart is always visible on mobile - primary action */}
       <CartToggle cart={cart} />
     </nav>
   );
@@ -134,32 +137,59 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
   const {open} = useAside();
   return (
-    <button className="header-cta-button header-cta-search" onClick={() => open('search')}>
+    <button className="header-cta-button header-cta-search hide-mobile" onClick={() => open('search')}>
       Search
     </button>
   );
 }
 
 function CartBadge({count}: {count: number | null}) {
-  const {open} = useAside();
+  const {open, close, type} = useAside();
   const {publish, shop, cart, prevCart} = useAnalytics();
+  const isCartOpen = type === 'cart';
 
   return (
     <a
       href="/cart"
-      className="header-cta-button"
+      className="header-cta-button header-cta-cart"
       onClick={(e) => {
         e.preventDefault();
-        open('cart');
-        publish('cart_viewed', {
-          cart,
-          prevCart,
-          shop,
-          url: window.location.href || '',
-        } as CartViewPayload);
+        if (isCartOpen) {
+          close();
+        } else {
+          open('cart');
+          publish('cart_viewed', {
+            cart,
+            prevCart,
+            shop,
+            url: window.location.href || '',
+          } as CartViewPayload);
+        }
       }}
+      aria-label={`Shopping cart with ${count || 0} items`}
+      aria-expanded={isCartOpen}
     >
-      Cart{count !== null && count > 0 && <span className="cart-count"> ({count})</span>}
+      {/* Shopping cart icon - hidden on desktop, shown on mobile */}
+      <svg 
+        className="cart-icon" 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      {/* Cart text label - shown on desktop, hidden on mobile */}
+      <span className="cart-label">Cart</span>
+      {/* Cart count badge */}
+      {count !== null && count > 0 && <span className="cart-count">{count}</span>}
     </a>
   );
 }

@@ -55,18 +55,21 @@ export function Aside({
   return (
     <div
       aria-modal
-      className={`overlay ${expanded ? 'expanded' : ''}`}
+      className={`overlay ${expanded ? 'expanded' : ''} overlay-${type}`}
       role="dialog"
     >
-      <button className="close-outside" onClick={close} />
-      <aside>
-        <header>
-          <h3>{heading}</h3>
-          <button className="close reset" onClick={close} aria-label="Close">
-            &times;
+      <button className="close-outside" onClick={close} aria-label="Close sidebar" />
+      <aside className={`aside-${type}`}>
+        <header className="aside-header">
+          <h3 className="aside-heading">{heading}</h3>
+          <button className="close-button reset" onClick={close} aria-label="Close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
           </button>
         </header>
-        <main>{children}</main>
+        <main className="aside-content">{children}</main>
       </aside>
     </div>
   );
